@@ -9,7 +9,7 @@ class mymidi(object):
     magic_midi_strings = [
         # 'MIDIPLUS TBOX 2x2:MIDIPLUS TBOX 2x2 MIDI 1 20:0',
         # 'MIDILINK-mini:MIDILINK-mini MIDI 1 20:0',
-        # 'ESI MIDIMATE eX:ESI MIDIMATE eX MIDI 1 20:0',
+        'ESI MIDIMATE eX:ESI MIDIMATE eX MIDI 1 20:0',
         # 'ESI MIDIMATE eX:ESI MIDIMATE eX MIDI 1 20:1',
         # 'ESI MIDIMATE eX:ESI MIDIMATE eX MIDI 2 20:0',
         # 'ESI MIDIMATE eX:ESI MIDIMATE eX MIDI 2 20:1',
@@ -19,8 +19,8 @@ class mymidi(object):
         # 'ESI MIDIMATE eX:ESI MIDIMATE eX MIDI 2 32:1',
         # 'QT-2host:QT-2host MIDI 1 24:0',
         # 'QT-2host:QT-2host MIDI 1 20:0',	      
-	      'twohost:twohost MIDI 1 20:0',
-        'twohost:twohost MIDI 1 28:0',
+        #'twohost:twohost MIDI 1 28:0',
+	      # 'twohost:twohost MIDI 1 20:0',
         
     ]
 
