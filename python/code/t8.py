@@ -224,7 +224,7 @@ knobs_to_osc[2] = (2,'/wgl')
 knobs_to_osc[3] = (3,'/transient')
 knobs_to_osc[4] = (4,'/depth')
 # knobs_to_osc[4] = (4,'/rate')
-knobs_to_osc[5] = (5,'/f 1')
+knobs_to_osc[5] = (5,'/quality')
 knobs_to_osc[6] = (6,'/rate')
 knobs_to_osc[7] = (7,'/pm_c_c')
 knobs_to_osc[8] = (8,'/ratios')
@@ -375,16 +375,19 @@ while True:
 
                             # send cc message via osc
                             path = find_osc_path_by_knob(knob)
-                            if path == "/f 1" and val>0.51:
-                              client.send_message("/params/q 1", 0.5)
-                              client.send_message("/params/f 1", random.random()/2)
-                              client.send_message("/params/f 2", random.random()/2)
-                              client.send_message("/params/q 2", 0.5)
+                            if path == "/quality":
+                              client.send_message("/params/q 1", 0.3)
+                              client.send_message("/params/f 1", random.random()*0.5)
+                              client.send_message("/params/f 2", random.random()*0.5)
+                              client.send_message("/params/q 2", 0.3)
                             elif path == "/ratios":
                               client.send_message("/ratios", 1)
                             elif path == "/pms":
                               print("pms on")
                               client.send_message("/pms", 1)
+                            elif path == "/transient":
+                              client.send_message("/transient", 1)
+
                             elif path:
                               client.send_message("/params"+path, val)
 
@@ -413,8 +416,7 @@ while True:
                               print("clear pm")
                               client.send_message("/pms", 0)
                             elif path == "/transient":
-                              # print("transient on")
-                              client.send_message("/transient", 1)
+                              client.send_message("/transient", 0)
                             elif path:
                               client.send_message("/params"+path, minval)
                             
