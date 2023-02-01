@@ -449,7 +449,7 @@ while True:
 
                             # send midi note on
                             new_note.send(True)
-                            print("note on!!! path,touched,touch_val", path,touched,touch_val)
+                            print("note on", new_note.msg)
 
                         elif touched == 0 and touched_keys[knob] != []:
                             # create a new note to turn off
