@@ -213,8 +213,8 @@ caps[7].append(SensorParam(7, 0, 1, 2, increasing=True))
 caps[8].append(SensorParam(8, 1, 127, 250, increasing=True))
 caps[9].append(SensorParam(9, 1, 2, 0.01, increasing=True))
 # caps[9].append(SensorParam(9, 1, 4, 1, increasing=True, whole_num=True))
-caps[10].append(SensorParam(10, 0, 0.90, 1, increasing=True))
-caps[11].append(SensorParam(11, 0, 0.90, 1, increasing=True))
+caps[10].append(SensorParam(10, 0, 0.5, 5, increasing=True))
+caps[11].append(SensorParam(11, 0, 0.5, 5, increasing=True))
 
 # knobs_to_osc = defaultdict(list)
 # IMPORTANT: set range in the first line below to the number of knobs you are defining 
@@ -392,8 +392,8 @@ while True:
                             elif path == "/transient":
                               client.send_message("/transient", 1)
                             elif path == "/old 1" or  path == "/old 2":
-                              client.send_message("/params/vol 1", 2)
-                              client.send_message("/params/vol 2", 2)
+                              client.send_message("/params/vol 1", 1)
+                              client.send_message("/params/vol 2", 1)
                               client.send_message("/params"+path, val)
                             elif path:
                               client.send_message("/params"+path, val)
