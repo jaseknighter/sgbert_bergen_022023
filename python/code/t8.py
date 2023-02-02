@@ -387,40 +387,38 @@ while True:
                               client.send_message("/pms", 1)
                             elif path == "/transient":
                               client.send_message("/transient", 1)
-
+                            elif path == "/old 1" or  path == "/old 2":
+                              client.send_message("/params/vol 1", 2)
+                              client.send_message("/params/vol 2", 2)
+                              client.send_message("/params"+path, val)
                             elif path:
                               client.send_message("/params"+path, val)
-
-
-                        # else:
-                        # elif touched_keys[knob]:
                         elif twisted_knobs[knob] != minval:
+                          twisted_knobs[knob] = minval
 
-                          # if twisted_knobs[knob] != minval:
-                            # print("clear knob", knob, minval)
-                            twisted_knobs[knob] = minval
+                          # send midi cc off
+                          midievent(0xB0, knob, minval).send(True)
 
-                            # send midi cc off
-                            midievent(0xB0, knob, minval).send(True)
-
-                            # send off cc message via osc
-                            path = find_osc_path_by_knob(knob)
-                            if path == "/f 1":
-                              # print("clear q")
-                              client.send_message("/params/q 1", 0)
-                              client.send_message("/params/q 2", 0)
-                            elif path == "/ratios":
-                              # print("clear ratios")
-                              client.send_message("/ratios", 0)
-                            elif path == "/pms":
-                              print("clear pm")
-                              client.send_message("/pms", 0)
-                            elif path == "/transient":
-                              client.send_message("/transient", 0)
-                            elif path:
-                              client.send_message("/params"+path, minval)
-                            
-                            cap.reset_to_min()
+                          # send off cc message via osc
+                          path = find_osc_path_by_knob(knob)
+                          if path == "/f 1":
+                            client.send_message("/params/q 1", 0)
+                            client.send_message("/params/q 2", 0)
+                          elif path == "/ratios":
+                            client.send_message("/ratios", 0)
+                          elif path == "/pms":
+                            print("clear pm")
+                            client.send_message("/pms", 0)
+                          elif path == "/transient":
+                            client.send_message("/transient", 0)
+                          elif path == "/old 1" or  path == "/old 2":
+                            client.send_message("/params/vol 1", 0)
+                            client.send_message("/params/vol 2", 0)
+                            client.send_message("/params"+path, minval)
+                          elif path:
+                            client.send_message("/params"+path, minval)
+                          
+                          cap.reset_to_min()
 
             # capt1 (notes)
             if capt1:
