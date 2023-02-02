@@ -206,7 +206,7 @@ caps[0].append(SensorParam(0, 0, 3, 3, increasing=True, whole_num=True))
 caps[1].append(SensorParam(1, 0, 0.5, 10, increasing=True))
 caps[2].append(SensorParam(2, 0, 0.5, 250, increasing=True))
 caps[3].append(SensorParam(3, 0, 1, 1, increasing=True))
-caps[4].append(SensorParam(4, 0, 0.02, 1, increasing=True))
+caps[4].append(SensorParam(4, 0, 0.02, 10, increasing=True))
 caps[5].append(SensorParam(5, 0.5, 1, 1, increasing=True))
 caps[6].append(SensorParam(6, 0, 2, 2, increasing=True))
 caps[7].append(SensorParam(7, 0, 1, 2, increasing=True))
@@ -381,7 +381,7 @@ while True:
                               client.send_message("/params/f 2", random.random()*0.5)
                               client.send_message("/params/q 2", 0.3)
                             elif path == "/depth":
-                              client.send_message("/params/rate", 10)
+                              client.send_message("/params/rate", val * 500)
                               client.send_message("/params"+path, val)
                             elif path == "/ratios":
                               client.send_message("/ratios", 1)
@@ -408,6 +408,7 @@ while True:
                             client.send_message("/params/q 1", 0)
                             client.send_message("/params/q 2", 0)
                           elif path == "/depth":
+                            client.send_message("/params/rate", 0)
                             client.send_message("/params"+path, minval)
                           elif path == "/ratios":
                             client.send_message("/ratios", 0)
