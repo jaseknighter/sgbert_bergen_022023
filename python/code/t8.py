@@ -202,16 +202,16 @@ caps = [[] for _ in range(12)]
 #   param 3: maximum midi value (can be 0-127) that can be reached when touching cap touch pin
 #   param 4: note sure what this is...maybe length of time to get to max midi value?
 #   param 5: maybe something like: if true ramp value from min to max. if false jump to max value
-caps[0].append(SensorParam(0, 0, 3, 3, increasing=True, whole_num=True))
+caps[0].append(SensorParam(0, 0, 2, 3, increasing=True, whole_num=True))
 caps[1].append(SensorParam(1, 0, 0.5, 10, increasing=True))
 caps[2].append(SensorParam(2, 0, 0.5, 250, increasing=True))
 caps[3].append(SensorParam(3, 0, 1, 1, increasing=True))
 caps[4].append(SensorParam(4, 0, 0.02, 10, increasing=True))
-caps[5].append(SensorParam(5, 0.5, 1, 1, increasing=True))
+caps[5].append(SensorParam(5, 0, 2, 1, increasing=True))
 caps[6].append(SensorParam(6, 0, 2, 2, increasing=True))
 caps[7].append(SensorParam(7, 0, 1, 2, increasing=True))
 caps[8].append(SensorParam(8, 1, 127, 250, increasing=True))
-caps[9].append(SensorParam(9, 0, 4, 1, increasing=True))
+caps[9].append(SensorParam(9, 1, 2, 0.01, increasing=True))
 # caps[9].append(SensorParam(9, 1, 4, 1, increasing=True, whole_num=True))
 caps[10].append(SensorParam(10, 0, 0.90, 1, increasing=True))
 caps[11].append(SensorParam(11, 0, 0.90, 1, increasing=True))
@@ -259,7 +259,7 @@ caps1[2].append(SensorParam(2, 0, 1, 1, increasing=True, whole_num=True))
 caps1[3].append(SensorParam(3, 0, 1, 1, increasing=True, whole_num=True))
 caps1[4].append(SensorParam(4, 0, 1, 1, increasing=True, whole_num=True))
 caps1[5].append(SensorParam(5, 0, 1, 1, increasing=True, whole_num=True))
-caps1[5].append(SensorParam(6, 0, 1, 1, increasing=True, whole_num=True))
+caps1[6].append(SensorParam(6, 0, 1, 1, increasing=True, whole_num=True))
 caps1[7].append(SensorParam(7, 0, 1, 1, increasing=True, whole_num=True))
 caps1[8].append(SensorParam(8, 0, 1, 1, increasing=True, whole_num=True))
 caps1[9].append(SensorParam(9, 0, 1, 1, increasing=True, whole_num=True))
@@ -406,8 +406,10 @@ while True:
                           # send off cc message via osc
                           path = find_osc_path_by_knob(knob)
                           if path == "/quality":
-                            client.send_message("/params/q 1", 0)
-                            client.send_message("/params/q 2", 0)
+                            client.send_message("/params/q 1", 0.5)
+                            client.send_message("/params/q 2", 0.5)
+                            client.send_message("/params/f 1", 0.5)
+                            client.send_message("/params/f 2", 0.5)
                           elif path == "/depth":
                             client.send_message("/params/rate", 0)
                             client.send_message("/params"+path, minval)
