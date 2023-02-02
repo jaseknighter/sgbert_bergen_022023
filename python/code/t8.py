@@ -203,12 +203,12 @@ caps = [[] for _ in range(12)]
 #   param 4: note sure what this is...maybe length of time to get to max midi value?
 #   param 5: maybe something like: if true ramp value from min to max. if false jump to max value
 caps[0].append(SensorParam(0, 0, 3, 3, increasing=True, whole_num=True))
-caps[1].append(SensorParam(1, 0, 0.5, 250, increasing=True))
+caps[1].append(SensorParam(1, 0, 0.5, 10, increasing=True))
 caps[2].append(SensorParam(2, 0, 0.5, 250, increasing=True))
 caps[3].append(SensorParam(3, 0, 1, 1, increasing=True))
-caps[4].append(SensorParam(4, 0, 0.1, 1, increasing=True))
+caps[4].append(SensorParam(4, 0, 0.02, 1, increasing=True))
 caps[5].append(SensorParam(5, 0.5, 1, 1, increasing=True))
-caps[5].append(SensorParam(6, 0.5, 0, 10, increasing=True))
+caps[6].append(SensorParam(6, 0, 2, 2, increasing=True))
 caps[7].append(SensorParam(7, 0, 1, 2, increasing=True))
 caps[8].append(SensorParam(8, 1, 127, 250, increasing=True))
 caps[9].append(SensorParam(9, 1, 4, 1, increasing=True, whole_num=True))
@@ -225,7 +225,7 @@ knobs_to_osc[3] = (3,'/transient')
 knobs_to_osc[4] = (4,'/depth')
 # knobs_to_osc[4] = (4,'/rate')
 knobs_to_osc[5] = (5,'/quality')
-knobs_to_osc[6] = (6,'/rate')
+knobs_to_osc[6] = (6,'/pm_b_b')
 knobs_to_osc[7] = (7,'/pm_c_c')
 knobs_to_osc[8] = (8,'/ratios')
 knobs_to_osc[9] = (9,'/oct 1')
@@ -380,6 +380,9 @@ while True:
                               client.send_message("/params/f 1", random.random()*0.5)
                               client.send_message("/params/f 2", random.random()*0.5)
                               client.send_message("/params/q 2", 0.3)
+                            elif path == "/depth":
+                              client.send_message("/params/rate", 10)
+                              client.send_message("/params"+path, val)
                             elif path == "/ratios":
                               client.send_message("/ratios", 1)
                             elif path == "/pms":
@@ -401,9 +404,11 @@ while True:
 
                           # send off cc message via osc
                           path = find_osc_path_by_knob(knob)
-                          if path == "/f 1":
+                          if path == "/quality":
                             client.send_message("/params/q 1", 0)
                             client.send_message("/params/q 2", 0)
+                          elif path == "/depth":
+                            client.send_message("/params"+path, minval)
                           elif path == "/ratios":
                             client.send_message("/ratios", 0)
                           elif path == "/pms":
