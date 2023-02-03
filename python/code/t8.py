@@ -204,7 +204,7 @@ caps = [[] for _ in range(12)]
 #   param 5: maybe something like: if true ramp value from min to max. if false jump to max value
 caps[0].append(SensorParam(0, 0, 2, 3, increasing=True, whole_num=True))
 caps[1].append(SensorParam(1, 0, 0.5, 10, increasing=True))
-caps[2].append(SensorParam(2, 0, 0.5, 250, increasing=True))
+caps[2].append(SensorParam(2, 0, 1, 0.2, increasing=True))
 caps[3].append(SensorParam(3, 0, 1, 1, increasing=True))
 caps[4].append(SensorParam(4, 0, 0.02, 10, increasing=True))
 caps[5].append(SensorParam(5, 0, 2, 1, increasing=True))
@@ -213,18 +213,17 @@ caps[7].append(SensorParam(7, 0, 1, 2, increasing=True))
 caps[8].append(SensorParam(8, 1, 127, 250, increasing=True))
 caps[9].append(SensorParam(9, 1, 2, 0.01, increasing=True))
 # caps[9].append(SensorParam(9, 1, 4, 1, increasing=True, whole_num=True))
-caps[10].append(SensorParam(10, 0.1, 0.5, 5, increasing=True))
-caps[11].append(SensorParam(11, 0.1, 0.5, 5, increasing=True))
+caps[10].append(SensorParam(10, 0.1, 0.2, 5, increasing=True))
+caps[11].append(SensorParam(11, 0.1, 0.2, 5, increasing=True))
 
 # knobs_to_osc = defaultdict(list)
 # IMPORTANT: set range in the first line below to the number of knobs you are defining 
 knobs_to_osc = [[] for _ in range(12)]
 knobs_to_osc[0] = (0,'/oct')
 knobs_to_osc[1] = (1,'/glide')
-knobs_to_osc[2] = (2,'/wgl')
+knobs_to_osc[2] = (2,'/wgl in')
 knobs_to_osc[3] = (3,'/transient')
 knobs_to_osc[4] = (4,'/depth')
-# knobs_to_osc[4] = (4,'/rate')
 knobs_to_osc[5] = (5,'/quality')
 knobs_to_osc[6] = (6,'/pm_b_b')
 knobs_to_osc[7] = (7,'/pm_c_c')
@@ -392,8 +391,8 @@ while True:
                             elif path == "/transient":
                               client.send_message("/transient", 1)
                             elif path == "/old 1" or  path == "/old 2":
-                              client.send_message("/params/vol 1", 1)
-                              client.send_message("/params/vol 2", 1)
+                              client.send_message("/params/vol 1", 0.3)
+                              client.send_message("/params/vol 2", 0.3)
                               client.send_message("/params"+path, val)
                             elif path:
                               client.send_message("/params"+path, val)
