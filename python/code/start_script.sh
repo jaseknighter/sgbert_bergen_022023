@@ -1,8 +1,12 @@
-sudo pkill -f t9.py
-cd /home/pi/touched/bergen_res_2022/code/ && python t9.py
+sudo pkill -f t10.py
 
-# replace  line 2 with line below one to skip midi sequence
-# cd /home/pi/touched/bergen_res_2022/code/ && python t9.py  --skipMidiSequence true
+#INSTRUCTIONS
+#  Remove this code to stop messages from being saved to file:
+#     `>> ~/touched/sgbert_bergen_022023/code/bergen_script.log`
+#  Use the second line of code that contains `--skipMidiSequence True`
+#    for the two Raspberrys that shouldn't auto-sequence notes
+#    Note: make sure the first line is commented out when doing this!
 
-# replace  line 2 with line below one to add logging
-#cd /home/pi/touched/bergen_res_2022/code/ && python t9.py >> /home/pi/touched/bergen_res_2022/code/bergen_script.log
+cd /home/pi/touched/sgbert_bergen_022023/code/ && python t10.py >> ~/touched/sgbert_bergen_022023/code/bergen_script.log
+# cd /home/pi/touched/sgbert_bergen_022023/code/ && python t10.py --skipMidiSequence True >> ~/touched/sgbert_bergen_022023/code/bergen_script.log
+

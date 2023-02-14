@@ -115,6 +115,6 @@ class midievent(object):
 def all_midi_off():
     mm = mymidi()
     midievent.set_midiout(mm)
-    print ("all off!!!")
+    print ("all_midi_off")
     midievent(0xB0, 0x7B, 0).send()
     midievent(0xB0, 0x78, 0).send()
