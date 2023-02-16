@@ -23,14 +23,14 @@ parser = argparse.ArgumentParser()
 
 # add an argument for the norns ip address 
 # parser.add_argument("--ip", default="127.0.0.1",
-# parser.add_argument("--ip", default="169.254.166.46",
 # parser.add_argument("--ip", default="192.168.1.25",
+# parser.add_argument("--ip", default="169.254.166.46",
 parser.add_argument("--ip", default="192.168.0.193",
     help="The ip of the OSC server")
 parser.add_argument("--port", type=int, default=10111,
     help="The port the OSC server is listening on")
 
-parser.add_argument("--numCapTs", type=int, default=1,
+parser.add_argument("--numCapTs", type=int, default=2,
     help="The number of capacitive touch boards (1 or 2)")
 
 
@@ -77,7 +77,7 @@ class CapT(object):
 
 
 def all_osc_off():
-  print("all_osc_off")
+  print("all osc off")
   client.send_message("/all_off",1)
 
   
@@ -86,7 +86,7 @@ def all_osc_off():
 atexit.register(all_osc_off)
 
 # base tempo
-TICKS_PER_SEC = 100000.0
+TICKS_PER_SEC = 10000.0
 # TICKS_PER_SEC = 1000.0
 #TICKS_PER_SEC = 500.0
 # TICKS_PER_SEC = 225.0
@@ -207,46 +207,6 @@ caps = [[] for _ in range(12)]
 #   param 5: maybe something like: if true ramp value from min to max. if false jump to max value
 caps[0].append(SensorParam(0, 0, 1, 0.5, increasing=True, whole_num=True))
 caps[1].append(SensorParam(1, 0, 0.5, 10, increasing=True))
-caps[2].append(SensorParam(2, 0, 1, 1, increasing=True))
-caps[3].append(SensorParam(3, 0, 0.05, 10, increasing=True))
-caps[4].append(SensorParam(4, 0, 2, 25, increasing=True))
-caps[5].append(SensorParam(5, 0.05, 0.2, 5, increasing=True))
-caps[6].append(SensorParam(6, 0, 1, 1, increasing=True, whole_num=True))
-caps[7].append(SensorParam(7, 0, 1, 1, increasing=True, whole_num=True))
-caps[8].append(SensorParam(8, 0, 1, 1, increasing=True, whole_num=True))
-caps[9].append(SensorParam(9, 0, 1, 1, increasing=True, whole_num=True))
-caps[10].append(SensorParam(10, 0, 1, 1, increasing=True, whole_num=True))
-caps[11].append(SensorParam(11, 0, 1, 1, increasing=True, whole_num=True))
-
-# knobs_to_osc = defaultdict(list)
-# IMPORTANT: set range in the first line below to the number of knobs you are defining 
-knobs_to_osc = [[] for _ in range(12)]
-knobs_to_osc[0] = (0,'/oct')
-knobs_to_osc[1] = (1,'/glide')
-knobs_to_osc[2] = (2,'/transient')
-knobs_to_osc[3] = (3,'/depth')
-knobs_to_osc[4] = (4,'/pm_b_b')
-knobs_to_osc[5] = (5,'/old 1')
-knobs_to_osc[6] = (6,'54')
-knobs_to_osc[7] = (7,'55')
-knobs_to_osc[8] = (8,'57')
-knobs_to_osc[9] = (9,'60')
-knobs_to_osc[10] = (10,'62')
-knobs_to_osc[11] = (11,'64')
-
-"""
-#
-# VERSION FOR TWO CAP TOUCH BOARDS
-#
-
-# note: the call to SensorParam sends the following data:
-#   param 1: cc number (referenced in the code as KNOB)
-#   param 2: starting midi value (can be 0-127) when cap touch pin is touched
-#   param 3: maximum midi value (can be 0-127) that can be reached when touching cap touch pin
-#   param 4: note sure what this is...maybe length of time to get to max midi value?
-#   param 5: maybe something like: if true ramp value from min to max. if false jump to max value
-caps[0].append(SensorParam(0, 0, 1, 0.5, increasing=True, whole_num=True))
-caps[1].append(SensorParam(1, 0, 0.5, 10, increasing=True))
 caps[2].append(SensorParam(2, 0, 1, 0.2, increasing=True))
 caps[3].append(SensorParam(3, 0, 1, 1, increasing=True))
 caps[4].append(SensorParam(4, 0, 0.05, 10, increasing=True))
@@ -254,7 +214,6 @@ caps[5].append(SensorParam(5, 0, 2, 1, increasing=True))
 caps[6].append(SensorParam(6, 0, 2, 25, increasing=True))
 caps[7].append(SensorParam(7, 0, 1, 2, increasing=True))
 caps[8].append(SensorParam(8, 1, 127, 250, increasing=True))
-# caps[8].append(SensorParam(8, 1, 127, 250, increasing=True))
 caps[9].append(SensorParam(9, 1, 2, 0.01, increasing=True))
 # caps[9].append(SensorParam(9, 1, 4, 1, increasing=True, whole_num=True))
 caps[10].append(SensorParam(10, 0.05, 0.2, 5, increasing=True))
@@ -275,7 +234,6 @@ knobs_to_osc[8] = (8,'/ratios')
 knobs_to_osc[9] = (9,'/oct 1')
 knobs_to_osc[10] = (10,'/old 1')
 knobs_to_osc[11] = (11,'/old 2')
-"""
 
 def find_osc_path_by_knob(kn):
   for knob, path in knobs_to_osc:
@@ -367,8 +325,7 @@ while True:
             current_tps = TICKS_PER_SEC * tempo
             tick_target += current_tps * delta
 
-            time.sleep(0.10001)
-            # time.sleep(0.010001)
+            time.sleep(0.010001)
 
             # Gather any notes ready to be played
             ticks_to_play = 0
@@ -412,7 +369,7 @@ while True:
                         if knob is TEMPO and touched > 0:
                             _tempo = val / TICKS_PER_SEC
                             result_list_by_knob[knob].append(_tempo)
-                        elif knob < 6 and touched > 0:
+                        elif touched > 0:
                             # print ("%%%%%%%%midi event  0x5A%%%%%%%%%%          ", knob, val, touched)
                             result_list_by_knob[knob].append(val)
                             twisted_knobs[knob] = val
@@ -443,10 +400,7 @@ while True:
                               client.send_message("/params"+path, val)
                             elif path:
                               client.send_message("/params"+path, val)
-                              if path == "/oct":
-                                # print("oct ratios")
-                                client.send_message("/ratios", 1)
-                        elif knob < 6 and twisted_knobs[knob] != minval:
+                        elif twisted_knobs[knob] != minval:
                           twisted_knobs[knob] = minval
 
                           # send midi cc off
@@ -475,42 +429,9 @@ while True:
                             client.send_message("/params"+path, minval)
                           elif path:
                             client.send_message("/params"+path, minval)
-                            if path == "/oct":
-                                # print("oct ratios")
-                                client.send_message("/ratios", 0)
+                          
                           cap.reset_to_min()
-                        elif touched > 0 and touched_keys[knob] == []:
-                            # print ("%%%%%%%%midi event 0x5B%%%%%%%%%%          ", knob, val, touched,touched_keys[knob])
-                            result_list_by_knob[knob].append(val)
-                            touched_keys[knob] = touched
 
-                            # create a new note
-                            path = find_osc_path_by_knob1(knob)
-                            new_note = midievent(0x90, int(path), 100, 100)
-                            
-                            # send osc note on
-                            client.send_message("/note_on", new_note.msg)
-
-                            # send midi note on
-                            new_note.send(True)
-                            print("note on", new_note.msg)
-
-                        elif touched == 0 and touched_keys[knob] != []:
-                            # create a new note to turn off
-                            path = find_osc_path_by_knob1(knob)
-                            new_note = midievent(0x80, int(path), 100)
-                            print("note off", touched, path, touched_keys[knob], knob, minval)
-                            # print("touched,touch_val",touched,touch_val)
-                            touched_keys[knob] = []
-
-                            # send midi note off
-                            new_note.send(True)
-                            
-                            # send note off message via osc
-                            # if path:
-                            #   print ("%%%%%%%%midi OFF event 0x5B%%%%%%%%%%          ", path, knob, val, touched)
-                            client.send_message("/note_off", new_note.msg)
-                            cap.reset_to_min()
             # capt1 (notes)
             if capt1:
                 # if the cap touch is broken, could get stuck waiting here...
@@ -562,7 +483,6 @@ while True:
 
 
     except KeyboardInterrupt:
-        print("keyboard interrupt")
         all_midi_off()
         break
 
